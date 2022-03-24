@@ -8,7 +8,14 @@
 import { provide, reactive } from 'vue'
 import { ethers } from 'ethers'
 
-import { contractABI, contractAddress } from '../utils/constants'
+import { 
+    contractABI,
+    contractAddress,
+    contractABIFalkToken,
+    contractAddressFalkToken,
+    contractABIEthSwap,
+    contractAddressEthSwap
+    } from '../utils/constants'
 
 const { ethereum } = window;
 
@@ -18,6 +25,55 @@ const getEthereumContract = () => {
     const transactionContract = new ethers.Contract(contractAddress, contractABI, signer);
 
     return transactionContract;
+}
+
+const getSwapContracts = () => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const ethSwapContract = new ethers.Contract(contractAddressEthSwap, contractABIEthSwap, signer);
+    const falkTokenContract = new ethers.Contract(contractAddressFalkToken, contractABIFalkToken, signer);
+
+    return contracts = {ethSwapContract, falkTokenContract};
+}
+
+const getBalances = async() => {
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const ethBalance = await provider.getBalance(address.currentAccount);
+    const falkBalance = await contracts.falkTokenContract.balanceOf(address.currentAccount);
+
+    const ethBalanceFormatted = getFormatEther(ethBalance);
+    const falkBalanceFormatted = getFormatEther(falkBalance);
+
+    return tokens.balanceETH = ethBalanceFormatted, tokens.balanceFLK = falkBalanceFormatted;
+}
+
+const getFormatEther = (amount) => {
+    return ethers.utils.formatEther(amount);
+}
+
+const makeSwapEth = async(amount) => {
+    const parsedAmount = ethers.utils.parseEther(amount.toString())
+    const transactionSwap = await contracts.ethSwapContract.functions.buyToken({
+        from: address.currentAccount,
+        value: parsedAmount._hex
+    });
+    loading.transactionSwap = true;
+    await transactionSwap.wait();
+    loading.transactionSwap = false;
+    getBalances();
+}
+const makeSwapFLK = async(amount) => {
+    const parsedAmount = ethers.utils.parseEther(amount.toString())
+    const transactionApprove = await contracts.falkTokenContract.functions.approve(contracts.ethSwapContract.address, parsedAmount, {
+        from: address.currentAccount
+    });
+    const transactionSwap = await contracts.ethSwapContract.functions.sellTokens(parsedAmount, {
+        from: address.currentAccount,
+    });
+    loading.transactionSwap = true;
+    await transactionSwap.wait();
+    loading.transactionSwap = false;
+    getBalances();
 }
 
 const getAllTransactions = async () => {
@@ -62,8 +118,8 @@ const handleAccountsChanged = accounts => {
         return address.currentAccount = null;
     }
     if (accounts[0] !== address.account) {
-        getAllTransactions();
-        return address.currentAccount = accounts[0];
+        address.currentAccount = accounts[0]
+        return getBalances();
     }
 }
 
@@ -98,13 +154,10 @@ const sendTransaction = async () => {
         const transactionHash = await transactionContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
 
         loading.transactionHash = true;
-        console.log(`Loading - ${transactionHash.hash}`);
         await transactionHash.wait();
         loading.transactionHash = false;
-        console.log(`Success - ${transactionHash.hash}`);
 
         const transactionCount = await transactionContract.getTransactionCount();
-        console.log(`Transaction Count - ${transactionCount}`);
 
         window.location.reload();
 
@@ -147,6 +200,18 @@ const transactions = reactive({
     transactions: []
 });
 
+let contracts = reactive({
+    ethSwapContract: null,
+    falkTokenContract: null
+});
+
+const tokens = reactive({
+    amountETH: null,
+    amountFLK: null,
+    balanceETH: 0,
+    balanceFLK: 0
+});
+
 export default {
     setup(){
         const accounts = address;
@@ -155,12 +220,18 @@ export default {
         provide('formData', formData);
         provide('loading', loading);
         provide('transactions', transactions);
-        provide('checkIfWalletIsConnected', checkIfWalletIsConnected)
-        provide('connectWallet', connectWallet)
-        provide('sendTokens', sendTokens)
+        provide('checkIfWalletIsConnected', checkIfWalletIsConnected);
+        provide('connectWallet', connectWallet);
+        provide('sendTokens', sendTokens);
+        provide('getSwapContracts', getSwapContracts);
+        provide('makeSwapEth', makeSwapEth);
+        provide('makeSwapFLK', makeSwapFLK);
+        provide('tokens', tokens);
+        provide('contracts', contracts);
     },
 }
 </script>
+
 <style>
  .bg-main{
      background-color:#1e293b;

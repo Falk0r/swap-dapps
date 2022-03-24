@@ -6,6 +6,24 @@ import Navbar from './components/Navbar.vue'
 import TransactionContext from './contexts/TransactionContext.vue'
 import Transactions from './components/Transactions.vue'
 import MyLink from './components/MyLink.vue'
+
+import {provide, ref} from 'vue'
+const sendEth = ref(true)
+const ethSwap = ref(false)
+
+function selectSendEth() {
+    sendEth.value = true;
+    ethSwap.value = false;
+}
+
+function selectEthSwap() {
+    ethSwap.value = true;
+    sendEth.value = false;
+}
+
+provide('sendEth', {sendEth, selectSendEth})
+provide('ethSwap', {ethSwap, selectEthSwap})
+
 </script>
 
 <template>
@@ -16,3 +34,4 @@ import MyLink from './components/MyLink.vue'
         <my-link />
     </transaction-context>
 </template>
+

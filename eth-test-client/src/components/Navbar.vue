@@ -10,14 +10,19 @@
             {{ shortenAddress(accounts.currentAccount)}}
         </button>
     </div>
+    <div class="flex flex-wrap items-center justify-center px-4 py-3">
+        <routing />
+    </div>
 </nav>
 </template>
 
 <script>
 import { inject } from 'vue'
 import { shortenAddress } from '../utils/shortenAddress'
+import routing from './Routing.vue';
 
 export default {
+  components: { routing },
     setup() {
         const checkIfWalletIsConnected = inject('checkIfWalletIsConnected');
         const connectWallet = inject('connectWallet');
