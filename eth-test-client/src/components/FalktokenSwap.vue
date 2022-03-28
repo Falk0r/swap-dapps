@@ -67,7 +67,8 @@
             </div>
             <hr class="mt-4 ">
             <div class="flex flex-col mt-4">
-                <button type="submit" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 mt-4 rounded" @click.prevent="exchange">Exchange Now</button>
+                <button v-if="!loading.transactionSwap" type="submit" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 mt-4 rounded" @click.prevent="exchange">Exchange Now</button>
+                <img v-else src="/Spinner-1s-350px.png" alt="loading" class="h-12 w-12 m-auto">
             </div>
         </div>
     </form>
@@ -81,6 +82,7 @@ const getSwapContracts = inject('getSwapContracts');
 const makeSwapEth = inject('makeSwapEth');
 const makeSwapFLK = inject('makeSwapFLK');
 const tokens = inject('tokens');
+const loading = inject('loading');
 
 const state = reactive({
     buy: true,

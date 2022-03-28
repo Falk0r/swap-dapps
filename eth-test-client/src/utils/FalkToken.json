@@ -18049,6 +18049,63 @@
     "version": "0.8.11+commit.d7f03943.Emscripten.clang"
   },
   "networks": {
+    "3": {
+      "events": {
+        "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "spender",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Approval",
+          "type": "event"
+        },
+        "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "value",
+              "type": "uint256"
+            }
+          ],
+          "name": "Transfer",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xfa9aee46282A463Fb1538277978201Bf8D51aF19",
+      "transactionHash": "0x19f60042f39817988da3eb50b19187b56255822735a3903ee1012cff5364484e"
+    },
     "5777": {
       "events": {
         "0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925": {
@@ -18108,7 +18165,7 @@
     }
   },
   "schemaVersion": "3.4.5",
-  "updatedAt": "2022-03-20T10:59:17.254Z",
+  "updatedAt": "2022-03-24T20:14:57.361Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Implementation of the basic standard token. https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md Originally based on code by FirstBlood: https://github.com/Firstbloodio/token/blob/master/smart_contract/FirstBloodToken.sol",
