@@ -32,7 +32,6 @@ const getSwapContracts = () => {
     const signer = provider.getSigner();
     const ethSwapContract = new ethers.Contract(contractAddressEthSwap, contractABIEthSwap, signer);
     const falkTokenContract = new ethers.Contract(contractAddressFalkToken, contractABIFalkToken, signer);
-
     return contracts = {ethSwapContract, falkTokenContract};
 }
 
@@ -52,28 +51,44 @@ const getFormatEther = (amount) => {
 }
 
 const makeSwapEth = async(amount) => {
-    const parsedAmount = ethers.utils.parseEther(amount.toString())
-    const transactionSwap = await contracts.ethSwapContract.functions.buyToken({
-        from: address.currentAccount,
-        value: parsedAmount._hex
-    });
-    loading.transactionSwap = true;
-    await transactionSwap.wait();
-    loading.transactionSwap = false;
-    getBalances();
+    try {
+        const parsedAmount = ethers.utils.parseEther(amount.toString())
+        loading.transactionSwap = true;
+        const transactionSwap = await contracts.ethSwapContract.functions.buyToken({
+            from: address.currentAccount,
+            value: parsedAmount._hex
+        });
+        await transactionSwap.wait();
+        loading.transactionSwap = false;
+    } catch (error) {
+        alert(error.message);
+        throw new Error("Fail to make swap");
+    } finally {
+        getBalances();
+        loading.transactionSwap = false;
+    }
 }
 const makeSwapFLK = async(amount) => {
-    const parsedAmount = ethers.utils.parseEther(amount.toString())
-    const transactionApprove = await contracts.falkTokenContract.functions.approve(contracts.ethSwapContract.address, parsedAmount, {
-        from: address.currentAccount
-    });
-    const transactionSwap = await contracts.ethSwapContract.functions.sellTokens(parsedAmount, {
-        from: address.currentAccount,
-    });
-    loading.transactionSwap = true;
-    await transactionSwap.wait();
-    loading.transactionSwap = false;
-    getBalances();
+    try {
+        const parsedAmount = ethers.utils.parseEther(amount.toString())
+        loading.transactionSwap = true;
+        const transactionApprove = await contracts.falkTokenContract.functions.approve(contracts.ethSwapContract.address, parsedAmount, {
+            from: address.currentAccount
+        });
+        //Think to wait the transaction approve to swap the tokens
+        await transactionApprove.wait();
+    
+        const transactionSwap = await contracts.ethSwapContract.functions.sellTokens(parsedAmount, {
+            from: address.currentAccount,
+        });
+        await transactionSwap.wait();
+    } catch (error) {
+        alert(error.message);
+        throw new Error("Fail to make swap");
+    } finally {
+        loading.transactionSwap = false;
+        getBalances();
+    }
 }
 
 const getAllTransactions = async () => {
@@ -118,8 +133,12 @@ const handleAccountsChanged = accounts => {
         return address.currentAccount = null;
     }
     if (accounts[0] !== address.account) {
-        address.currentAccount = accounts[0]
-        return getBalances();
+        address.currentAccount = accounts[0];
+
+        getAllTransactions();
+        getBalances();
+
+        return address.currentAccount = accounts[0];
     }
 }
 
