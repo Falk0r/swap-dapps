@@ -1,7 +1,7 @@
 # My first Ethereum DApp
 
 <p align="center">
-<img alt="Ethereum dapp" src="https://raw.githubusercontent.com/Falk0r/swap-dapps/538186bed93d7769b803f562007b61604a858ca9/eth-test-client/public/falkSwap.png?token=GHSAT0AAAAAABS2UCGMWD26V4XWRVZWUFZIYR4NLUA" height="300">
+<img alt="Ethereum dapp" src="https://raw.githubusercontent.com/Falk0r/swap-dapps/main/eth-test-client/public/falkSwap.png?token=GHSAT0AAAAAABS2UCGMDI3DCJ5S2TOQGRRGYSEVSEQ" height="300">
 </p>
 
 # Update from 03/24/2022
