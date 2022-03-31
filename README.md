@@ -1,8 +1,24 @@
 # My first Ethereum DApp
 
 <p align="center">
-<img alt="Ethereum dapp" src="https://raw.githubusercontent.com/Falk0r/test-eth/main/eth-test-client/public/app.png?token=GHSAT0AAAAAABRA6NOJGHWTUDTXDJTUQPSAYP36F7A" height="300">
+<img alt="Ethereum dapp" src="https://raw.githubusercontent.com/Falk0r/swap-dapps/main/eth-test-client/public/falkSwap.png?token=GHSAT0AAAAAABS2UCGMDI3DCJ5S2TOQGRRGYSEVSEQ" height="300">
 </p>
+
+# Update from 03/24/2022
+
+## Introduce the FalkToken
+
+To update this project and continue to learn web3, I created the FalkToken. This is a new token that I have created for this project. With this new token, I can wrote a smart contract that can be used to exchange FalkToken with ETH. This token is a ERC20 token.
+
+## New feature : Swap FALK with ETH
+
+With the FalkToken, you can now exchange FalkToken with Ethereum or Ethereum with FalkToken. This is a new feature that I have added to this project. This app has now a swap function like uniswap.
+
+## New tools
+
+To create this feature, RemixIDE is not enough. To develop I needed to used [Truffle](https://trufflesuite.com/) and [Ganache](https://trufflesuite.com/ganache/index.html).
+
+# Introduction
 
 To introduce myself in the blockchain's world, I'll start to learn the basics of web3 development.
 
@@ -14,11 +30,11 @@ When you are connect with your wallet, you can find below the form the last tran
 
 ### Front
 
-The client's side is code with [Vue 3](https://vuejs.org/) and [Tailwindcss](https://tailwindcss.com/)
+The client's side is code with [Vue 3](https://vuejs.org/), [Tailwindcss](https://tailwindcss.com/) and [Ethers js](https://docs.ethers.io/v5/single-page/)
 
 ### Back
 
-A smart contract, code in [Solidity](https://docs.soliditylang.org/en/v0.8.11/), is deploy in the Ethereum's blockchain on Ropsten testnet.
+Smart contracts, code in [Solidity](https://docs.soliditylang.org/en/v0.8.11/), is deploy in the Ethereum's blockchain on Ropsten testnet.
 
 ### Host
 
