@@ -18,6 +18,10 @@ With the FalkToken, you can now exchange FalkToken with Ethereum or Ethereum wit
 
 To create this feature, RemixIDE is not enough. To develop I needed to used [Truffle](https://trufflesuite.com/) and [Ganache](https://trufflesuite.com/ganache/index.html).
 
+<p align="center">
+<img alt="Truffle suite" src="https://cryptonaute.fr/wp-content/uploads/2019/06/2019-06-08_08h04_50.jpg" height="100">
+</p>
+
 # Introduction
 
 To introduce myself in the blockchain's world, I'll start to learn the basics of web3 development.
